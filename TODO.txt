@@ -1,0 +1,6 @@
+- Create CSS classes so you know which squares are head and tail also identify borders for the snake body. Make the snake look better
+- Implement a command queue so you can queue directions when pressing two buttons at the same time.
+- Buttons to speed up or slow down the game.
+- Have an array of food images. Pick a random food image every time food spawns.
+- Build an AI which plays the game perfectly???
+- Use local storage to keep track of the highest score
