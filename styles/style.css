@@ -3,17 +3,26 @@
   display: none !important;
 }
 
-.btn {
-  font-size: 20px;
-  padding: 10px 15px;
+.game-header .reset-btn, .btn {
+  font-size: 15px;
+  padding: 15px 30px;
   border: none;
-  border-radius: 10%;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.btn:active {
-  /* cool clicking animation */
-  -webkit-transform: scale(0.93);
-          transform: scale(0.93);
+.game-header .reset-btn:active, .btn:active {
+  -webkit-transform: scale(95%);
+          transform: scale(95%);
+}
+
+.game-header .reset-btn:hover, .btn:hover {
+  -webkit-filter: brightness(0.95);
+          filter: brightness(0.95);
+}
+
+.game-header .reset-btn:disabled, .btn:disabled {
+  cursor: default;
 }
 
 .snake-game-container .square {
@@ -45,20 +54,49 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  gap: 15px;
   min-height: 100vh;
   width: 100vw;
   background-color: steelblue;
   color: #fff;
-  overflow: hidden;
 }
 
-.container {
+.game-header {
+  width: 475px;
+  font-size: 15px;
+  padding: 10px 20px;
+}
+
+.game-header .top-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.game-header .top-header h1 {
+  width: 100%;
+  font-size: 50px;
+  text-align: center;
+}
+
+.game-header .score-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.game-header .game-score {
+  background-color: #0051ff;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -69,10 +107,21 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  gap: 15px;
+}
+
+.game-header .bot-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 20px;
+}
+
+.game-header .reset-btn {
+  background-color: #3c3cc0;
+  color: #fff;
 }
 
 .snake-game-container {
@@ -92,5 +141,18 @@ body {
 
 .snake-game-container .square.snake {
   background-color: coral;
+}
+
+.snake-game-container .fas.fa-apple-alt {
+  font-size: 25px;
+}
+
+.how-to-play {
+  max-width: 475px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
 }
 /*# sourceMappingURL=style.css.map */

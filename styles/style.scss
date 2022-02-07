@@ -16,21 +16,53 @@ body {
   font-family: 'Roboto', serif;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  gap: 15px;
   min-height: 100vh;
   width: 100vw;
   // background-color: steelblue;
   @include set-background(steelblue);
-  overflow: hidden;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
+.game-header {
+  width: 475px;
+  font-size: 15px;
+  padding: 10px 20px;
+  .top-header {
+    display: flex;
+    align-items: center;
+
+    h1 {
+      width: 100%;
+      font-size: 50px;
+      text-align: center;
+    }
+  }
+
+  .score-header {
+    display: flex;
+  }
+
+  .game-score {
+    @include set-background(rgb(0, 81, 255));
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bot-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .reset-btn {
+    @extend %btn;
+    @include set-background($darkBlue);
+  }
 }
 
 .snake-game-container {
@@ -47,8 +79,20 @@ body {
   .square.snake {
     background-color: coral;
   }
+
+  .fas.fa-apple-alt {
+    font-size: 25px;
+  }
 }
 
 .btn {
   @extend %btn;
+}
+
+.how-to-play {
+  max-width: 475px;
+  text-align: center;
+  @include set-background(rgba($color: #000000, $alpha: 0.3));
+  padding: 10px 20px;
+  border-radius: 10px;
 }

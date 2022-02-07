@@ -15,15 +15,35 @@
     <title>Snake Game</title>
   </head>
   <body>
-    <div class="container">
-      <h1>Snake</h1>
-      <h1><i class="fas fa-gamepad"></i></h1>
-      <h3>Score: <span id="gameScore">0</span></h3>
+
+      <div class="game-header">
+        <div class="top-header">
+          <h1>Snake</h1>
+          <div class="score-header">
+            <div class="game-score">
+              <span>Score</span>
+              <h3 id="gameScore">31</h3>
+            </div>
+            <div class="game-score">
+              <span>Best</span>
+              <h3 id="bestScore">31</span>
+            </div>
+          </div>
+        </div>
+        <div class="bot-header">
+          <p>Join the numbers and get to the 2048 tile!</p>
+          <button id="resetBtn" class="reset-btn">Reset</button>
+        </div>
+      </div>
 
       <div class="snake-game-container" id="snakeContainer"></div>
+      <div class="how-to-play">
+        <h4>HOW TO PLAY:</h4>
+        Use your arrow keys or WASD to move the direction of the snake. Eat the
+        apples to grow longer and collect points! The game ends when the snake
+        collides with its own body
+      </div>
 
-      <button id="resetBtn" class="btn">Reset</button>
-    </div>
     <script src="script.js"></script>
   </body>
 </html>

@@ -1,23 +1,22 @@
 const snakeContainer = document.getElementById('snakeContainer');
-const gameScore = document.getElementById('gameScore');
+const gameScoreEl = document.getElementById('gameScore');
+const bestScoreEl = document.getElementById('bestScore');
 const resetBtn = document.getElementById('resetBtn');
 
-const gameHeight = 500;
-const gameWidth = 700;
-const squareSize = 50;
-const rowCount = gameWidth / squareSize;
-const colCount = gameHeight / squareSize;
+const gameHeight = 550;
+const gameWidth = 1000;
+const squareSize = 25;
+const rowCount = parseInt(gameWidth / squareSize);
+const colCount = parseInt(gameHeight / squareSize);
 const squareCount = rowCount * colCount;
 
-const tick = 130;
+const tick = 60;
 
 snakeContainer.style.height = gameHeight + 'px';
 snakeContainer.style.width = gameWidth + 'px';
-fillSquares();
 
-const squares = snakeContainer.querySelectorAll('div.square');
-
-const foodHtml = '<i class="fas fa-apple-alt fa-2x"></i>';
+const BEST_SCORE = 'snakeBestScore';
+const foodHtml = '<i class="fas fa-apple-alt"></i>';
 const [UP, RIGHT, DOWN, LEFT] = [
   'ArrowUp',
   'ArrowRight',
@@ -27,6 +26,7 @@ const [UP, RIGHT, DOWN, LEFT] = [
 
 const startingSquares = [0, 1, 2];
 
+let squares;
 let keyPressed;
 let direction;
 let x;
@@ -35,18 +35,19 @@ let snake;
 let emptySquares;
 let food;
 let score;
+let bestScore;
 let interval;
 
 document.addEventListener('keydown', (e) => {
-  if ([UP, RIGHT, DOWN, LEFT].includes(e.key)) keyPressed = e.key;
+  e.preventDefault(); // do not scroll window
+  if ([UP, RIGHT, DOWN, LEFT, 'w', 'a', 's', 'd'].includes(e.key))
+    keyPressed = e.key;
 });
 
 resetBtn.addEventListener('click', () => {
   endGame();
   startGame();
 });
-
-startGame();
 
 function startGame() {
   // Initiliaze game variables
@@ -56,6 +57,8 @@ function startGame() {
   y = 0;
   snake = [];
   score = 0;
+  bestScore = parseInt(localStorage.getItem(BEST_SCORE));
+  console.log(bestScore);
 
   emptySquares = new Set();
   for (let i = 0; i < squareCount; i++) emptySquares.add(i);
@@ -73,17 +76,7 @@ function endGame() {
   clearInterval(interval);
 }
 
-function updateGame() {
-  moveSnake();
-  renderGame();
-}
-
-function moveSnake() {
-  let square = getIndex(x, y);
-  if (snake.includes(square)) {
-    endGame();
-    return;
-  }
+function moveSnake(square) {
   snake.unshift(square);
   emptySquares.delete(square);
 
@@ -91,9 +84,15 @@ function moveSnake() {
   if (square === food) {
     insertFood();
     score++;
+    if (bestScore < score) {
+      bestScore = score;
+      localStorage.setItem(BEST_SCORE, bestScore);
+    }
   } else {
     emptySquares.add(snake.pop());
   }
+
+  renderGame();
 }
 
 function insertFood() {
@@ -116,38 +115,55 @@ function insertFood() {
 function gameTick() {
   // Check direction change
   if (
-    (keyPressed === UP && direction !== DOWN) ||
-    (keyPressed === RIGHT && direction !== LEFT) ||
-    (keyPressed === DOWN && direction !== UP) ||
-    (keyPressed === LEFT && direction !== RIGHT)
+    ((keyPressed === UP || keyPressed === 'w') &&
+      (direction !== DOWN || keyPressed === 's')) ||
+    ((keyPressed === RIGHT || keyPressed === 'd') &&
+      (direction !== LEFT || keyPressed === 'a')) ||
+    ((keyPressed === DOWN || keyPressed === 's') &&
+      (direction !== UP || keyPressed === 'w')) ||
+    ((keyPressed === LEFT || keyPressed === 'a') &&
+      (direction !== RIGHT || keyPressed === 'd'))
   ) {
     direction = keyPressed;
   }
 
   switch (direction) {
     case UP:
+    case 'w':
       y--;
       break;
     case RIGHT:
+    case 'd':
       x++;
       break;
     case DOWN:
+    case 's':
       y++;
       break;
     case LEFT:
+    case 'a':
       x--;
       break;
   }
+
+  if (x < 0) x = rowCount - 1;
+  if (y < 0) y = colCount - 1;
+  if (rowCount <= x) x = 0;
+  if (colCount <= y) y = 0;
+
+  let square = getIndex(x, y);
+
   if (
-    x < 0 ||
-    y < 0 ||
-    rowCount <= x ||
-    colCount <= y ||
+    // x < 0 ||
+    // y < 0 ||
+    // rowCount <= x ||
+    // colCount <= y ||
+    snake.includes(square) ||
     emptySquares.size === 0
   ) {
     endGame();
   } else {
-    updateGame();
+    moveSnake(square);
   }
 }
 
@@ -160,10 +176,11 @@ function renderGame() {
   snake.forEach((square) => squares[square].classList.add('snake'));
   squares[food].innerHTML = foodHtml;
 
-  gameScore.textContent = score;
+  gameScoreEl.innerText = score;
+  bestScoreEl.innerText = bestScore;
 }
 
-function fillSquares() {
+function initializeGame() {
   for (let i = 0; i < squareCount; i++) {
     const square = document.createElement('div');
     square.className = 'square';
@@ -171,8 +188,14 @@ function fillSquares() {
     square.style.width = squareSize + 'px';
     snakeContainer.appendChild(square);
   }
+  squares = snakeContainer.querySelectorAll('div.square');
+  if (!localStorage.getItem(BEST_SCORE)) localStorage.setItem(BEST_SCORE, '0');
+
+  startGame();
 }
 
 function getIndex(x, y) {
   return x + y * rowCount;
 }
+
+initializeGame();
