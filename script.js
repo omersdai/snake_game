@@ -50,7 +50,7 @@ resetBtn.addEventListener('click', () => {
 });
 
 function startGame() {
-  // Initiliaze game variables
+  // Reset game variables
   keyPressed = RIGHT;
   direction = RIGHT;
   x = 2;
@@ -58,7 +58,6 @@ function startGame() {
   snake = [];
   score = 0;
   bestScore = parseInt(localStorage.getItem(BEST_SCORE));
-  console.log(bestScore);
 
   emptySquares = new Set();
   for (let i = 0; i < squareCount; i++) emptySquares.add(i);
