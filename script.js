@@ -24,6 +24,17 @@ const [UP, RIGHT, DOWN, LEFT] = [
   'ArrowLeft',
 ];
 
+const actionMap = {
+  ArrowUp: UP,
+  ArrowRight: RIGHT,
+  ArrowDown: DOWN,
+  ArrowLeft: LEFT,
+  w: UP,
+  d: RIGHT,
+  s: DOWN,
+  a: LEFT,
+};
+
 const startingSquares = [0, 1, 2];
 
 let squares;
@@ -40,8 +51,9 @@ let interval;
 
 document.addEventListener('keydown', (e) => {
   e.preventDefault(); // do not scroll window
-  if ([UP, RIGHT, DOWN, LEFT, 'w', 'a', 's', 'd'].includes(e.key))
-    keyPressed = e.key;
+  const action = actionMap[e.key];
+  if ([UP, RIGHT, DOWN, LEFT].includes(action)) keyPressed = action;
+  console.log(action);
 });
 
 resetBtn.addEventListener('click', () => {
@@ -114,14 +126,10 @@ function insertFood() {
 function gameTick() {
   // Check direction change
   if (
-    ((keyPressed === UP || keyPressed === 'w') &&
-      (direction !== DOWN || keyPressed === 's')) ||
-    ((keyPressed === RIGHT || keyPressed === 'd') &&
-      (direction !== LEFT || keyPressed === 'a')) ||
-    ((keyPressed === DOWN || keyPressed === 's') &&
-      (direction !== UP || keyPressed === 'w')) ||
-    ((keyPressed === LEFT || keyPressed === 'a') &&
-      (direction !== RIGHT || keyPressed === 'd'))
+    (keyPressed === UP && direction !== DOWN) ||
+    (keyPressed === RIGHT && direction !== LEFT) ||
+    (keyPressed === DOWN && direction !== UP) ||
+    (keyPressed === LEFT && direction !== RIGHT)
   ) {
     direction = keyPressed;
   }
